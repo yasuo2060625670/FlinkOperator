@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.topsec.ti.patronus:operator-flink-sdk:1.7.2-2019.0301-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://C:/maven_repository/com/topsec/ti/patronus/operator-flink-sdk/1.7.2-2019.0301-SNAPSHOT/operator-flink-sdk-1.7.2-2019.0301-20191210.021759-15.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://C:/maven_repository/com/topsec/ti/patronus/operator-flink-sdk/1.7.2-2019.0301-SNAPSHOT/operator-flink-sdk-1.7.2-2019.0301-20191210.021759-15-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://C:/maven_repository/com/topsec/ti/patronus/operator-flink-sdk/1.7.2-2019.0301-SNAPSHOT/operator-flink-sdk-1.7.2-2019.0301-20191210.021759-15-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
