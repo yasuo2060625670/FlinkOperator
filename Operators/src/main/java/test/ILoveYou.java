@@ -5,7 +5,6 @@ import java.awt.*;
 
 /**
  * @author ：zz
- * @date ：Created in 2020/7/1 10:11
  */
 public class ILoveYou extends JFrame {
     //获取屏幕大小

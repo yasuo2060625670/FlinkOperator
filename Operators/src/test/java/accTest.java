@@ -89,7 +89,7 @@ public class accTest {
 // 设置模式为exactly-once （这是默认值）
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 // 确保检查点之间有至少500 ms的间隔【checkpoint最小间隔】
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
+        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
 // 检查点必须在一分钟内完成，或者被丢弃【checkpoint的超时时间】
         env.getCheckpointConfig().setCheckpointTimeout(60000);
 // 同一时间只允许进行一个检查点
@@ -97,7 +97,6 @@ public class accTest {
         env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-        int[] arr = {};
 
         SingleOutputStreamOperator<Row> returns = rowDataStreamSource.keyBy(new KeySelector<Row, Row>() {
             @Override
@@ -113,7 +112,5 @@ public class accTest {
                 ).returns(Types.ROW(new String[]{"institution_short", "inst_count", "inst_sum"}, new TypeInformation[]{Types.STRING(), Types.LONG(), Types.LONG()}));
         returns.print();
         env.execute();
-
-
     }
 }

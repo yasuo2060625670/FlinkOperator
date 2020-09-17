@@ -32,6 +32,50 @@
 
     <profiles>
         <profile>
+            <id>1.10.0</id>
+            <properties>
+                <flink.version>1.10.0</flink.version>
+                <scala.version>2.11</scala.version>
+                <operator.date.version>2020.0401</operator.date.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-planner_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-planner_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
             <id>1.8.3</id>
             <properties>
                 <flink.version>1.8.3</flink.version>
@@ -90,6 +134,30 @@
     </profiles>
 
     <dependencies>
+        <!--logback日志依赖开始 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <!--logback日志依赖结束 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-java</artifactId>
