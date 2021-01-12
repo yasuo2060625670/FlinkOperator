@@ -9,10 +9,11 @@ import org.junit.Test;
 public class testlog4j {
     @Test
     public void  test(){
+        System.out.println("str".substring(11));
         log.info("this is info");
         log.error("this is error");
         log.debug("this is debug");
         log.trace("this is trace");
-
     }
 }
+

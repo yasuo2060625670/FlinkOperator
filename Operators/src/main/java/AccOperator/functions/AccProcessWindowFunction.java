@@ -21,7 +21,7 @@ public class AccProcessWindowFunction extends ProcessWindowFunction<CountAccumul
         Iterator<CountAccumulator> iterator = iterable.iterator();
         while (iterator.hasNext()){
             CountAccumulator cal = iterator.next();
-            System.out.println("key = "+cal.key);
+//            System.out.println("key = "+cal.key);
             collector.collect(Row.of(cal.key,cal.count,cal.sum2));
 
         }

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @author ：zz
  * @date ：Created in 2020/6/22 10:40
  */
-public class AccFunction implements AggregateFunction<Row,CountAccumulator,CountAccumulator> {
+public class AccFunction implements AggregateFunction<Row,CountAccumulator,CountAccumulator>{
     public  int countIndex ;
     public  int sumIndex ;
 

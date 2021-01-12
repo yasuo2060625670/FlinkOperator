@@ -1,8 +1,9 @@
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
-
+import java.text.SimpleDateFormat.*;
 /**
  * @author ：zz
  * @date ：Created in 2020/6/29 16:02
@@ -22,5 +23,9 @@ public class testHashMap {
         if ("".equals(a)){
             System.out.println("1");
         }
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+        sdf.format("");
     }
 }

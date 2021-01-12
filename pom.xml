@@ -32,6 +32,113 @@
 
     <profiles>
         <profile>
+            <id>1.12.0</id>
+            <properties>
+                <flink.version>1.12.0</flink.version>
+                <scala.version>2.11</scala.version>
+                <operator.date.version>2020.1216</operator.date.version>
+            </properties>
+            <dependencies>
+
+                <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.39</version>
+                </dependency>
+
+
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-planner_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-planner_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>1.11.2</id>
+            <properties>
+                <flink.version>1.11.2</flink.version>
+                <scala.version>2.11</scala.version>
+                <operator.date.version>2020.0401</operator.date.version>
+            </properties>
+            <dependencies>
+
+                <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.39</version>
+                </dependency>
+
+
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-planner_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-planner_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+
+        <profile>
             <id>1.10.0</id>
             <properties>
                 <flink.version>1.10.0</flink.version>
@@ -39,6 +146,15 @@
                 <operator.date.version>2020.0401</operator.date.version>
             </properties>
             <dependencies>
+
+                <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.39</version>
+                </dependency>
+
+
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-table-planner_${scala.version}</artifactId>
@@ -89,19 +205,19 @@
                         <groupId>org.apache.flink</groupId>
                         <artifactId>flink-table-planner_${scala.version}</artifactId>
                         <version>${flink.version}</version>
-                        <scope>provided</scope>
+                        <scope>compile</scope>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.flink</groupId>
                         <artifactId>flink-table-api-java-bridge_${scala.version}</artifactId>
                         <version>${flink.version}</version>
-                        <scope>provided</scope>
+                        <scope>compile</scope>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.flink</groupId>
                         <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
                         <version>${flink.version}</version>
-                        <scope>provided</scope>
+                        <scope>compile</scope>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
@@ -134,6 +250,8 @@
     </profiles>
 
     <dependencies>
+
+
         <!--logback日志依赖开始 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -162,13 +280,13 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-java</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_${scala.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -180,7 +298,7 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -193,7 +311,7 @@
             <groupId>com.topsec.ti.patronus</groupId>
             <artifactId>operator-flink-sdk</artifactId>
             <version>${flink.version}-${operator.date.version}-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -262,119 +380,119 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <excludes>
-                        <exclude>description.xml</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <gitDescribe>
-                        <tags>true</tags>
-                    </gitDescribe>
-                    <prefix>${project.artifactId}</prefix>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.directory}/classes/operator.properties
-                    </generateGitPropertiesFilename>
-                </configuration>
-            </plugin>
-        </plugins>
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>3.1</version>-->
+                <!--<configuration>-->
+                    <!--<source>${java.version}</source>-->
+                    <!--<target>${java.version}</target>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+                <!--<version>2.4</version>-->
+                <!--<configuration>-->
+                    <!--<excludes>-->
+                        <!--<exclude>description.xml</exclude>-->
+                    <!--</excludes>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>pl.project13.maven</groupId>-->
+                <!--<artifactId>git-commit-id-plugin</artifactId>-->
+                <!--<version>3.0.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>revision</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<gitDescribe>-->
+                        <!--<tags>true</tags>-->
+                    <!--</gitDescribe>-->
+                    <!--<prefix>${project.artifactId}</prefix>-->
+                    <!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
+                    <!--<generateGitPropertiesFilename>${project.build.directory}/classes/operator.properties-->
+                    <!--</generateGitPropertiesFilename>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.1</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                            <configuration>
-                                <createDependencyReducedPom>false</createDependencyReducedPom>
-                                <filters>
-                                    <filter>
-                                        <artifact>*:*</artifact>
-                                        <excludes>
-                                            <exclude>META-INF/*.SF</exclude>
-                                            <exclude>META-INF/*.DSA</exclude>
-                                            <exclude>META-INF/*.RSA</exclude>
-                                        </excludes>
-                                    </filter>
-                                </filters>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.4</version>
-                    <configuration>
-                        <timestampFormat>yyyyMMdd.hhmmss</timestampFormat>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>create-timestamp</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <inherited>true</inherited>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.1</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>../../target/${project.parent.name}</outputDirectory>
-                                <finalName>
-                                    ${project.parent.artifactId}-${project.artifactId}-${operator.provider}-${magiclamp.version}.${operator.version}-${timestamp}
-                                </finalName>
-                                <appendAssemblyId>false</appendAssemblyId>
-                                <descriptors>
-                                    <descriptor>../../assembly.xml</descriptor>
-                                </descriptors>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+        <!--<pluginManagement>-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-shade-plugin</artifactId>-->
+                    <!--<version>3.2.1</version>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<phase>package</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>shade</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<createDependencyReducedPom>false</createDependencyReducedPom>-->
+                                <!--<filters>-->
+                                    <!--<filter>-->
+                                        <!--<artifact>*:*</artifact>-->
+                                        <!--<excludes>-->
+                                            <!--<exclude>META-INF/*.SF</exclude>-->
+                                            <!--<exclude>META-INF/*.DSA</exclude>-->
+                                            <!--<exclude>META-INF/*.RSA</exclude>-->
+                                        <!--</excludes>-->
+                                    <!--</filter>-->
+                                <!--</filters>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.codehaus.mojo</groupId>-->
+                    <!--<artifactId>buildnumber-maven-plugin</artifactId>-->
+                    <!--<version>1.4</version>-->
+                    <!--<configuration>-->
+                        <!--<timestampFormat>yyyyMMdd.hhmmss</timestampFormat>-->
+                    <!--</configuration>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<goals>-->
+                                <!--<goal>create-timestamp</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                    <!--<inherited>true</inherited>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                    <!--<version>3.1.1</version>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<phase>package</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>single</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<outputDirectory>../../target/${project.parent.name}</outputDirectory>-->
+                                <!--<finalName>-->
+                                    <!--${project.parent.artifactId}-${project.artifactId}-${operator.provider}-${magiclamp.version}.${operator.version}-${timestamp}-->
+                                <!--</finalName>-->
+                                <!--<appendAssemblyId>false</appendAssemblyId>-->
+                                <!--<descriptors>-->
+                                    <!--<descriptor>../../assembly.xml</descriptor>-->
+                                <!--</descriptors>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
+    <!--</build>-->
 
     <repositories>
         <repository>

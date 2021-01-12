@@ -10,6 +10,9 @@ import org.apache.flink.streaming.api.windowing.triggers.TriggerResult;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.flink.runtime.state.heap.HeapKeyedStateBackend;
+import org.apache.flink.runtime.state.heap.StateTable;
+//import org.apache.flink.runtime.state.heap
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,14 +37,13 @@ public class TimeIntervalTrigger extends Trigger<Object, TimeWindow> {
         timeStateDesc = new ReducingStateDescriptor<Long>("timeInterval", (a, b) -> {
             return a > b ? b : a;
         }, LongSerializer.INSTANCE);
-
+//        timeStateDesc.setQueryable("query_name");
     }
 
     @Override
     public TriggerResult onElement(Object o, long time, TimeWindow window, TriggerContext ctx) throws Exception {
         if (window.maxTimestamp() <= ctx.getCurrentWatermark()) {
             // if the watermark is already past the window fire immediately
-            System.out.println("111");
             return TriggerResult.FIRE;
         }
 //        System.out.println((
@@ -64,7 +66,7 @@ public class TimeIntervalTrigger extends Trigger<Object, TimeWindow> {
 //                            " window end time = " + SIMPLE_DATE_FORMAT.format(new Date(window.getEnd()))));
 //
 //            System.out.println(window.getEnd() - 10000 +"::::"+ currentProcessingTime);
-            System.out.println("on element excute");
+//            System.out.println("on element excute");
 
             long start = currentProcessingTime - (currentProcessingTime % timeInterval);
             long nextFireTimestamp = start + timeInterval;
@@ -80,7 +82,7 @@ public class TimeIntervalTrigger extends Trigger<Object, TimeWindow> {
 
     @Override
     public TriggerResult onProcessingTime(long time, TimeWindow window, TriggerContext ctx) throws Exception {
-        System.out.println(("onProcessingTime excute"));
+//        System.out.println(("onProcessingTime excute"));
 
 //        System.out.println((
 //                "time = " + SIMPLE_DATE_FORMAT.format(new Date(time)) +
