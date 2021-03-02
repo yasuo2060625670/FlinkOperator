@@ -98,6 +98,7 @@ public class AccOperator {
                 return "";
             }
         }).print();
+
         SingleOutputStreamOperator<Row> returns = ds2.keyBy(row -> Row.project(row, arr))
                 .window(TumblingEventTimeWindows.of(Time.days(1)))
                 .trigger(new TimeIntervalTrigger(5000))
