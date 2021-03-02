@@ -1,6 +1,7 @@
 package flinkEnvironment;
 
 import AccOperator.functions.TimestampExtractor;
+import com.google.common.collect.Lists;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -53,11 +54,13 @@ public class EnvironmentUtil {
                 .assignTimestampsAndWatermarks(new TimestampExtractor(Time.seconds(10)))
                 .returns(Types.ROW_NAMED(new String[]{"name", "age", "time_str"}, Types.STRING, Types.INT, Types.LONG));
         Table table = tEnv.fromDataStream(rowSingleOutputStreamOperator);
+        tEnv.createTemporaryView("test", table);
         return new FlinkEnvironment()
                 .setOutputStream(rowSingleOutputStreamOperator)
                 .setEnv(env)
                 .settEnv(tEnv)
                 .setTable(table);
+
 
     }
 

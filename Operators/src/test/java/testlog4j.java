@@ -9,11 +9,14 @@ import org.junit.Test;
 public class testlog4j {
     @Test
     public void  test(){
-        System.out.println("str".substring(11));
+//        System.out.println("str".substring(11));
         log.info("this is info");
         log.error("this is error");
         log.debug("this is debug");
         log.trace("this is trace");
+        log.error(String.format("invalid time_str :'%s',invalid row : '%s'", "a", "b"));
+        log.error("获取'威胁情报'数据失败，错误码:'%s',错误信息:'%s'", "a", "b");
+
     }
 }
 

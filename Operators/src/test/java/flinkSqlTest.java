@@ -44,26 +44,27 @@ public class flinkSqlTest {
             @Override
             public void run(SourceContext<Row> ctx) throws Exception {
                 while(true) {
+                    int[] arr = {1, 2, 4};
                     count++;
                     /**
                      * 获取abc
                      */
-                    ctx.collect(Row.of("Module接入一网:abc", "源:'规则名称:192.168.2.2dgfsdihgius","APT", 1.9994, 1.22,1.3));
+                    ctx.collect(Row.of(";Module接入一网:abc", "源:'规则名称:192.168.2.2dgfsdihgius", "APT", 1.9994, 1.22, arr));
                     Thread.sleep(1000);
 
-                    ctx.collect(Row.of("Module接入二网123", "目的:事件:Web Applications:23.2.级别4.2jkdbgiusd","IPS", 1.9994, 1.22,1.3));
-                    Thread.sleep(1000);
-
-                    ctx.collect(Row.of("Module接入二网123", "事件::23.2.4.2级别jkdbgiusd","IPS", 1.9994, 1.22,1.3));
-                    Thread.sleep(1000);
-
-                    ctx.collect(Row.of("Module接入四网123", "Module 目的:23.2.4.2jkdbgiusd","WAF", 1.9994, 1.22,1.3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("Module接入四网123", "Module:目的:23.2.4.2jkdbgiusd","WAF", 1.9994, 1.22,1.3));
-                    Thread.sleep(1000);
-
-                    ctx.collect(Row.of("Module接入四网123", "目的攻击类型aSkyEyea发生时间:dbgiusd","SkyEye", 1.9994, 1.22,1.3));
-                    Thread.sleep(1000);
+//                    ctx.collect(Row.of(";Module;接入;二网123", "目的:事件:Web Applications:23.2.级别4.2jkdbgiusd","IPS", 1.9994, 1.22,1.3));
+//                    Thread.sleep(1000);
+//
+//                    ctx.collect(Row.of(";Module接入二;网;123", "事件::23.2.4.2级别jkdbgiusd","IPS", 1.9994, 1.22,1.3));
+//                    Thread.sleep(1000);
+//
+//                    ctx.collect(Row.of("Modu;le接入;四网123", "Module 目的:23.2.4.2jkdbgiusd","WAF", 1.9994, 1.22,1.3));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("Module;接入四网;123", "Module:目的:23.2.4.2jkdbgiusd","WAF", 1.9994, 1.22,1.3));
+//                    Thread.sleep(1000);
+//
+//                    ctx.collect(Row.of("Modu;le接入四网123", "目的攻击类型aSkyEyea发生时间:dbgiusd","SkyEye", 1.9994, 1.22,1.3));
+//                    Thread.sleep(1000);
                 }
             }
             @Override
@@ -76,7 +77,9 @@ public class flinkSqlTest {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         DataStream<Row> ds = rowDataStreamSource.map((MapFunction) (row -> row))
-                .returns(Types.ROW(new String[]{"name", "SUMMARY","COMPONENT", "num1", "num2", "num3"}, new TypeInformation[]{Types.STRING(), Types.STRING(),Types.STRING(), Types.DOUBLE(), Types.DOUBLE(),Types.DOUBLE()}));
+                .returns(Types.ROW(new String[]{"name", "SUMMARY", "COMPONENT", "num1", "num2", "num3"},
+
+                        new TypeInformation[]{Types.STRING(), Types.STRING(), Types.STRING(), Types.DOUBLE(), Types.DOUBLE(), Types.PRIMITIVE_ARRAY(Types.INT())}));
         SingleOutputStreamOperator<Row> ds2 = ds.assignTimestampsAndWatermarks(new AscendingTimestampExtractor<Row>() {
             @Override
             public long extractAscendingTimestamp(Row row) {
@@ -88,7 +91,14 @@ public class flinkSqlTest {
         //Caused by: java.lang.RuntimeException: Rowtime timestamp is null. Please make sure that a proper TimestampAssigner is defined and the stream environment uses the EventTime time characteristic.
 
         Table table = tEnv.fromDataStream(ds2);
-        tEnv.createTemporaryView("TEST",table);
+        tEnv.createTemporaryView("test", table);
+
+        Table table1 = tEnv.sqlQuery("select num3 from  test");
+//        Table table1 = tEnv.sqlQuery("select regexp_extract(name,'(^;)*(.*)',2) from  test");
+        DataStream<Row> dataStream = tEnv.toAppendStream(table1, Row.class);
+        dataStream.print().setParallelism(16);
+
+
 //        tEnv.registerFunction("timeTrans", new timeTrans());
 
 //        Table table11 = tEnv.sqlQuery("select regexp_extract(SUMMARY,'(源:|目的:)(\\d+\\.\\d+\\.\\d+\\.\\d)',2) as aaa from TEST" );

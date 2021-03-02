@@ -27,6 +27,7 @@ import org.apache.flink.util.Collector;
 import org.junit.Test;
 import org.apache.flink.runtime.state.heap.HeapKeyedStateBackend;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -41,36 +42,33 @@ public class flinkCEPTest {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         DataStream<Row> inputStream = env.addSource(new SourceFunction<Row>() {
-
             @Override
             public void run(SourceContext<Row> ctx) throws Exception {
-                while (true) {
+                while (true) {//aaabb
                     long time3 = System.currentTimeMillis();
-                    ctx.collect(Row.of("jack", 100, time3));
+                    ctx.collect(Row.of("jack", 0, sdf.format(time3)));
                     Thread.sleep(1000);
-                    ctx.collect(Row.of("bob", 80, time3));
+                    ctx.collect(Row.of("jack2", 0, sdf.format(System.currentTimeMillis())));
                     Thread.sleep(1000);
-                    ctx.collect(Row.of("ada", 60, time3));
+                    ctx.collect(Row.of("jack3", 0, sdf.format(System.currentTimeMillis())));
                     Thread.sleep(1000);
-                    ctx.collect(Row.of("jack2", 100, time3));
+                    ctx.collect(Row.of("bob", 80, sdf.format(System.currentTimeMillis())));
                     Thread.sleep(1000);
-                    ctx.collect(Row.of("bob2", 70, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("ada2", 60, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("jack", 100, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("bob", 90, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("ada", 60, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("jack2", 100, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("bob2", 80, time3));
-                    Thread.sleep(1000);
-                    ctx.collect(Row.of("ada2", 60, time3));
-                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("bob2", 90, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("bob3", 90, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("jack", 100, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("bob", 90, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("jack2", 100, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+//                    ctx.collect(Row.of("bob2", 80, sdf.format(System.currentTimeMillis())));
+//                    Thread.sleep(1000);
+
                 }
             }
 
@@ -78,17 +76,15 @@ public class flinkCEPTest {
             public void cancel() {
 
             }
-        }) .assignTimestampsAndWatermarks(new TimestampExtractor(Time.milliseconds(10)));
+        }).assignTimestampsAndWatermarks(new TimestampExtractor(Time.milliseconds(0)));
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         /**
          * start:name = jack
          */
-        AfterMatchSkipStrategy skipStrategy = AfterMatchSkipStrategy.skipToFirst("start");
+        AfterMatchSkipStrategy skipStrategy = AfterMatchSkipStrategy.skipToLast("start");
 
         Pattern<Row, ?> pattern = Pattern.<Row>begin("start",skipStrategy)
-
-
                .where(
                 new SimpleCondition<Row>() {
                     @Override
@@ -96,12 +92,12 @@ public class flinkCEPTest {
                         return event.getField(0).toString().startsWith("jack");
                     }
                 }
-        ).next("middle").subtype(Row.class).where(new SimpleCondition<Row>() {
+               ).followedByAny("middle").subtype(Row.class).where(new SimpleCondition<Row>() {
             @Override
             public boolean filter(Row value) throws Exception {
                 return Integer.parseInt(value.getField(1).toString())>=80;
             }
-        }).within(Time.milliseconds(2000));
+                }).within(Time.milliseconds(10000));
 
 
 //                .next("middle").subtype(Event.class).where(subEvt -> subEvt.getVolume() >= 10.0)
