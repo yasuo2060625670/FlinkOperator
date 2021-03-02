@@ -3,6 +3,7 @@
  * @date ：Created in 2020/6/22 10:44
  */
 import AccOperator.functions.*;
+import com.google.common.collect.Lists;
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.core.fs.Path;
@@ -18,6 +19,7 @@ import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExt
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.table.sources.wmstrategies.WatermarkStrategy;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
@@ -132,9 +134,9 @@ public class test {
                                 .withMaxPartSize(1024 * 1024 * 128)//==1G 合并
                                 .build())
                 .build();
-
+//Lists
 //        ds2.print();
-
+//  [[]\      WatermarkStrategy.forb
 
 //        SingleOutputStreamOperator<Row> process = rowDataStreamSource.keyBy(row -> (String) row.getField(0))
 //                .timeWindow(Time.days(1))

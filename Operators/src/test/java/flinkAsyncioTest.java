@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author ：zz
+ * 异步IO/Cache缓存实现
  */
 public class flinkAsyncioTest {
     public static void main(String[] args) throws Exception {

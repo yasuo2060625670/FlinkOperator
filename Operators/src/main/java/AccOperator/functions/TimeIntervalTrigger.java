@@ -33,7 +33,7 @@ public class TimeIntervalTrigger extends Trigger<Object, TimeWindow> {
 
     public TimeIntervalTrigger(long timeInterval) {
 
-        this.timeInterval = timeInterval;
+        this.timeInterval = timeInterval * 1000;
         timeStateDesc = new ReducingStateDescriptor<Long>("timeInterval", (a, b) -> {
             return a > b ? b : a;
         }, LongSerializer.INSTANCE);
