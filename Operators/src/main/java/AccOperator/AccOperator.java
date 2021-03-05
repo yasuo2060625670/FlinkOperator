@@ -3,8 +3,10 @@ package AccOperator; /**
  * @date ：Created in 2020/6/22 10:44
  */
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.typeinfo.Types;
+import org.apache.flink.runtime.state.filesystem.FsStateBackend;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.table.api.DataTypes;
-import org.apache.flink.table.api.Types;
 import AccOperator.functions.AccFunction;
 import AccOperator.functions.AccProcessWindowFunction;
 import AccOperator.functions.TimeIntervalTrigger;
@@ -20,7 +22,6 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.Row;
-import org.apache.flink.table.api.Types;
 import java.util.Date;
 /**
  * @author ：zhuwei
@@ -70,8 +71,8 @@ public class AccOperator {
             }
         });
         int[] arr = {2};
-//        env.enableCheckpointing(1000);
-//        env.setStateBackend(new MemoryStateBackend());
+        env.enableCheckpointing(5000);
+//        env.setStateBackend(new FsStateBackend());
 //        env.enableCheckpointing(1000);
 //
 //// 高级选项：
@@ -83,7 +84,7 @@ public class AccOperator {
 //        env.getCheckpointConfig().setCheckpointTimeout(60000);
 //// 同一时间只允许进行一个检查点
 //        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
-//        env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
+        env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         SingleOutputStreamOperator<Row> ds2 = rowDataStreamSource.assignTimestampsAndWatermarks(new AscendingTimestampExtractor<Row>() {
             @Override
@@ -92,21 +93,21 @@ public class AccOperator {
             }
         });
 //        Row.project(row, arr);
-        ds2.map(new MapFunction<Row, String>() {
-            @Override
-            public String map(Row row) throws Exception {
-                Row project = Row.project(row, arr);
-                System.out.println(project);
-                return "";
-            }
-        }).print();
+//        ds2.map(new MapFunction<Row, String>() {
+//            @Override
+//            public String map(Row row) throws Exception {
+//                Row project = Row.project(row, arr);
+//                return "";
+//            }
+//        }).print();
 
         SingleOutputStreamOperator<Row> returns = ds2.keyBy(row -> Row.project(row, arr))
                 .window(TumblingEventTimeWindows.of(Time.days(1)))
-                .trigger(new TimeIntervalTrigger(5000))
+
+                .trigger(new TimeIntervalTrigger(5))
                 .aggregate(new AccFunction(2, 1),
                         new AccProcessWindowFunction()
-                ).returns(Types.ROW(new String[]{"institution_short", "inst_count", "inst_sum"}, new TypeInformation[]{Types.STRING(), Types.LONG(), Types.LONG()}));
+                ).slotSharingGroup("red").returns(Types.ROW_NAMED(new String[]{"institution_short", "inst_count", "inst_sum"}, Types.STRING, Types.LONG, Types.LONG)).setParallelism(7);
         returns.print();
         env.execute();
 
