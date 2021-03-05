@@ -15,7 +15,8 @@ public class testtime {
         String format = sdf.get().format(System.currentTimeMillis());
         System.out.println(format);
         System.out.println("change");
-        System.out.println("changemaster");
+        System.out.println("change_branch");
+        System.out.println("change_master");
 
 
     }

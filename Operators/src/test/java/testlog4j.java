@@ -14,6 +14,8 @@ public class testlog4j {
         log.error("this is error");
         log.debug("this is debug");
         log.trace("this is trace");
+        System.out.println("change_master");
+
         log.error(String.format("invalid time_str :'%s',invalid row : '%s'", "a", "b"));
         log.error("获取'威胁情报'数据失败，错误码:'%s',错误信息:'%s'", "a", "b");
 
