@@ -153,7 +153,11 @@
                     <artifactId>mysql-connector-java</artifactId>
                     <version>5.1.39</version>
                 </dependency>
-
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-json</artifactId>
+                    <version>${flink.version}</version>
+                </dependency>
 
                 <dependency>
                     <groupId>org.apache.flink</groupId>
@@ -167,9 +171,19 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-table-api-scala-bridge_${scala.version}</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-runtime-web_${scala.version}</artifactId>
+                </dependency>
             </dependencies>
             <dependencyManagement>
                 <dependencies>
+                    <dependency>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-runtime-web_${scala.version}</artifactId>
+                        <version>${flink.version}</version>
+                        <scope>test</scope>
+                    </dependency>
                     <dependency>
                         <groupId>org.apache.flink</groupId>
                         <artifactId>flink-table-planner_${scala.version}</artifactId>
@@ -250,8 +264,33 @@
     </profiles>
 
     <dependencies>
-
-
+        <!--<dependency>-->
+            <!--<groupId>org.apache.flink</groupId>-->
+            <!--<artifactId>flink-connector-elasticsearch6_2.11</artifactId>-->
+            <!--<version>${flink.version}</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+                    <!--<groupId>org.elasticsearch.client</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <dependency>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <groupId>org.elasticsearch.client</groupId>
+            <version>6.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-runtime-web_${scala.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!--logback日志依赖开始 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -300,12 +339,7 @@
             <version>${flink.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-runtime-web_${scala.version}</artifactId>
-            <version>${flink.version}</version>
-            <scope>test</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>com.topsec.ti.patronus</groupId>
