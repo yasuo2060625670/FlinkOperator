@@ -43,6 +43,7 @@ public class EnvironmentUtil {
                     Thread.sleep(1000);
                     long time = System.currentTimeMillis();
 
+
                     ctx.collect(Row.of("b", 43, time));
                     Thread.sleep(5000);
 

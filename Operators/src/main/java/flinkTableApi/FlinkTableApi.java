@@ -190,32 +190,29 @@ jdbcRead
 /*
 es
  */
-        tEnv.sqlUpdate("CREATE TABLE zwtest0407 (\n" +
-                "  name string,\n" +
-                "event_time string,"+
-                "es_time string,"+
-                "  age DECIMAL(38,18),\n" +
-                "  gender string\n" +
-//"t as TO_TIMESTAMP(FROM_UNIXTIME(1615287508107,'yyyy-MM-dd HH:mm:ss'))," +
-//                "proctime as proctime(),\n"+
-//                "  WATERMARK FOR proctime AS proctime- INTERVAL '5' SECOND"+
-
-
-                ") WITH (\n" +
-                "  'connector.type' = 'elasticsearch', \n" +
-
-
-
-                "  'connector.version' = '6', \n" +
-                "  'connector.hosts' = 'http://localhost:9200',  \n" +//数据库表
-                "  'connector.index' = 'test_ab_2021-04-01',\n" +
-                "  'connector.document-type' = '_doc', \n" +
-                "  'update-mode' = 'append'\n" +
-
-                ")");
-        Table table1 = tEnv.sqlQuery("\n" +
-                //flink表
-                "SELECT  * FROM zwtest0407");
+//        tEnv.sqlUpdate("CREATE TABLE zwtest0407 (\n" +
+//                "  name string,\n" +
+//                "event_time string,"+
+//                "es_time string,"+
+//                "  age DECIMAL(38,18),\n" +
+//                "  gender string\n" +
+//
+//
+//                ") WITH (\n" +
+//                "  'connector.type' = 'elasticsearch', \n" +
+//
+//
+//
+//                "  'connector.version' = '6', \n" +
+//                "  'connector.hosts' = 'http://localhost:9200',  \n" +//数据库表
+//                "  'connector.index' = 'test_ab_2021-04-01',\n" +
+//                "  'connector.document-type' = '_doc', \n" +
+//                "  'update-mode' = 'append'\n" +
+//
+//                ")");
+//        Table table1 = tEnv.sqlQuery("\n" +
+//                //flink表
+//                "SELECT  * FROM zwtest0407");
 
         table.printSchema();
         tEnv.registerFunction("hash", new HashFunction());
@@ -242,6 +239,7 @@ es
 //                "COUNT(name)\n" +
 //                "FROM test\n" +
 //                "GROUP BY SESSION(proc_time, INTERVAL '2' SECOND)");
+        Table table1 = tEnv.sqlQuery("select * from test");
         table1.printSchema();
         DataStream<Tuple2<Boolean, Row>> dataStream = tEnv.toRetractStream(table1, Row.class);
 //        DataStream<Row> dataStream = tEnv.toAppendStream(table1, Row.class);
