@@ -13,6 +13,8 @@ import org.apache.flink.cep.pattern.Pattern;
 import org.apache.flink.cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.TimeCharacteristic;
+import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
+import org.apache.flink.streaming.api.checkpoint.ListCheckpointed;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -98,7 +100,8 @@ public class flinkCEPTest {
                 return Integer.parseInt(value.getField(1).toString())>=80;
             }
                 }).within(Time.milliseconds(10000));
-
+//        ListCheckpointed
+//        CheckpointedFunction
 
 //                .next("middle").subtype(Event.class).where(subEvt -> subEvt.getVolume() >= 10.0)
 //                .followedBy("end").where(evt -> evt.getName().equals("end"));

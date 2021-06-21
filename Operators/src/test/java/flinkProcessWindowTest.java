@@ -26,23 +26,23 @@ public class flinkProcessWindowTest {
         FlinkEnvironment environment = EnvironmentUtil.getEnvironment();
         Table table = environment.getTable();
         StreamExecutionEnvironment env = environment.getEnv();
-//        DataStream<Row> outputStream = environment.getOutputStream();
-//        outputStream.keyBy(t->(String)t.getField(0))
-//
-//                .timeWindow(Time.seconds(10))
-//                .trigger(new TimeIntervalTrigger(2))
-//
-//                .process(new ProcessWindowFunction<Row, Row, String, TimeWindow>() {
-//                    @Override
-//                    public void process(String s, Context context, Iterable<Row> elements, Collector<Row> out) throws Exception {
-//                        for (Row element : elements) {
-//                            out.collect(element);
-//                        }
-//                    }
-//                }).print();
-        StreamTableEnvironment tableEnvironment = environment.gettEnv();
-        Table table1 = tableEnvironment.sqlQuery("select cast( 0 as double) as lons from test");
-        table1.printSchema();
+        DataStream<Row> outputStream = environment.getOutputStream();
+        outputStream.keyBy(t->(String)t.getField(0))
+
+                .timeWindow(Time.seconds(10))
+                .trigger(new TimeIntervalTrigger(2))
+
+                .process(new ProcessWindowFunction<Row, Row, String, TimeWindow>() {
+                    @Override
+                    public void process(String s, Context context, Iterable<Row> elements, Collector<Row> out) throws Exception {
+                        for (Row element : elements) {
+                            out.collect(element);
+                        }
+                    }
+                }).print();
+//        StreamTableEnvironment tableEnvironment = environment.gettEnv();
+//        Table table1 = tableEnvironment.sqlQuery("select cast( 0 as double) as lons from test");
+//        table1.printSchema();
 
 
         env.execute();

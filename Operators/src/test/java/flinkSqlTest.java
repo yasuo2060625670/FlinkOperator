@@ -49,14 +49,14 @@ public class flinkSqlTest {
                     /**
                      * 获取abc
                      */
-                    ctx.collect(Row.of(";Modu\\le接入一网:abc", "源:'规则名称:192.168.2.2dgfsdihgius", "APT", 1.9994, 1.22, arr));
+                    ctx.collect(Row.of(";Modu\\le接入一网:abc", "源:'规则名称:192.168.2.2dgfsdihgius", "APT", 1.9994, 1.22, 0.99));
                     Thread.sleep(1000);
 
-//                    ctx.collect(Row.of(";Module;接入;二网123", "目的:事件:Web Applications:23.2.级别4.2jkdbgiusd","IPS", 1.9994, 1.22,1.3));
-//                    Thread.sleep(1000);
+                    ctx.collect(Row.of(";Module;接入;二网123", "目的:事件:Web Applications:23.2.级别4.2jkdbgiusd","IPS", 1.9994, 1.22,1.3));
+                    Thread.sleep(1000);
 //
-//                    ctx.collect(Row.of(";Module接入二;网;123", "事件::23.2.4.2级别jkdbgiusd","IPS", 1.9994, 1.22,1.3));
-//                    Thread.sleep(1000);
+                    ctx.collect(Row.of(";Module接入二;网;sdf", "事件::23.2.4.2级别jkdbgiusd","IPS", 1.9994, 1.22,1.3));
+                    Thread.sleep(1000);
 //
 //                    ctx.collect(Row.of("Modu;le接入;四网123", "Module 目的:23.2.4.2jkdbgiusd","WAF", 1.9994, 1.22,1.3));
 //                    Thread.sleep(1000);
@@ -79,7 +79,7 @@ public class flinkSqlTest {
         DataStream<Row> ds = rowDataStreamSource.map((MapFunction) (row -> row))
                 .returns(org.apache.flink.api.common.typeinfo.Types.ROW_NAMED(new String[]{"name", "SUMMARY", "COMPONENT", "num1", "num2", "num3"},
 
-                       Types.STRING, Types.STRING, Types.STRING, Types.DOUBLE, Types.DOUBLE, Types.PRIMITIVE_ARRAY(Types.INT)));
+                       Types.STRING, Types.STRING, Types.STRING, Types.DOUBLE, Types.DOUBLE, Types.DOUBLE));
         SingleOutputStreamOperator<Row> ds2 = ds.assignTimestampsAndWatermarks(new AscendingTimestampExtractor<Row>() {
             @Override
             public long extractAscendingTimestamp(Row row) {
@@ -93,16 +93,16 @@ public class flinkSqlTest {
         Table table = tEnv.fromDataStream(ds2);
         tEnv.createTemporaryView("test", table);
 
-        Table table1 = tEnv.sqlQuery("select '' as  asd, cast(num1 as int),test.* from  test");
-        table1.printSchema();
+//        Table table1 = tEnv.sqlQuery("select '' as  asd, cast(num1 as int),test.* from  test");
+//        table1.printSchema();
 //        Table table1 = tEnv.sqlQuery("select regexp_extract(name,'(^;)*(.*)',2) from  test");
-        DataStream<Row> dataStream = tEnv.toAppendStream(table1, Row.class);
-        dataStream.print().setParallelism(16);
+//        DataStream<Row> dataStream = tEnv.toAppendStream(table1, Row.class);
+//        dataStream.print().setParallelism(16);
 
 
 //        tEnv.registerFunction("timeTrans", new timeTrans());
 
-//        Table table11 = tEnv.sqlQuery("select regexp_extract(SUMMARY,'(源:|目的:)(\\d+\\.\\d+\\.\\d+\\.\\d)',2) as aaa from TEST" );
+        Table table11 = tEnv.sqlQuery("select *  from test where regexp_extract(name,'.*\\d+.*',0) is not null" );
 //        Table table11 = tEnv.sqlQuery("select  name,case when regexp_extract(name,('接入一网'),0) is not null then '内网' else '互联网' end   as aaa from TEST" );
 //        Table table11 = tEnv.sqlQuery("select  COMPONENT,SUMMARY,case when COMPONENT = 'SkyEye' then regexp_extract(SUMMARY,'(攻击类型)(.*)(发生时间)',2)  else '' end   as aaa from TEST" );
 
@@ -258,11 +258,11 @@ public class flinkSqlTest {
 //        Table select = table11.select("array(aaaa) as aa");
 
 
-//        table11.printSchema();
+        table11.printSchema();
 //        select.printSchema();
 
-//        DataStream<Row> dataStream = tEnv.toAppendStream(table11, Row.class);
-//        dataStream.print();
+        DataStream<Row> dataStream2 = tEnv.toAppendStream(table11, Row.class);
+        dataStream2.print();
 //        ((SingleOutputStreamOperator<Row>) ds).setParallelism(10).print();
 //        ((SingleOutputStreamOperator<Row>) ds).setParallelism(10);
 //        d23.print();

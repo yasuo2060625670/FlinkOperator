@@ -84,7 +84,11 @@
             <artifactId>flink-table-api-scala-bridge_2.11</artifactId>
             <version>1.10.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.13</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner-blink_2.11</artifactId>
@@ -94,7 +98,7 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-runtime-web_${scala.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

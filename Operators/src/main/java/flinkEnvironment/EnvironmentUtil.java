@@ -1,10 +1,14 @@
 package flinkEnvironment;
 
 import AccOperator.functions.TimestampExtractor;
+import com.topsec.ti.patronus.operator.spark.lib.util.StringFormater;
 import lombok.SneakyThrows;
+//import  org.apache.flink.runtime.taskexecutor;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.configuration.ConfigConstants;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -18,6 +22,8 @@ import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * @author ：zz
@@ -27,8 +33,16 @@ public class EnvironmentUtil {
     public static final SimpleDateFormat SDF = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
     public static FlinkEnvironment getEnvironment() {
 
-
+        Configuration configuration = new Configuration();
+//        configuration.setBoolean(ConfigConstants.LOCAL_START_WEBSERVER,true);
+//        configuration.setBoolean(ConfigConstants.LOCAL_NUMBER_TASK_MANSAGER,true);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        Configuration conf = new Configuration();
+//        env.setMaxParallelism()
+        int maxParallelism = env.getMaxParallelism();
+        System.out.println("最大并发度为："+maxParallelism);
+        conf.set(RestOptions.PORT,8088);
+//        env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         EnvironmentSettings blinkStreamSettings= EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
 
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env,blinkStreamSettings);
@@ -45,10 +59,10 @@ public class EnvironmentUtil {
 
 
                     ctx.collect(Row.of("b", 43, time));
-                    Thread.sleep(5000);
+//                    Thread.sleep(1000);
 
                     ctx.collect(Row.of("c", 43, time));
-                    Thread.sleep(1000);
+//                    Thread.sleep(1000);
                 }
             }
 
@@ -64,7 +78,6 @@ public class EnvironmentUtil {
                         return (Long) element.getField(2);
                     }
                 });
-
         SingleOutputStreamOperator<Row> element = env.fromElements(
                 Row.of("工商银行", "2017-11-11 10:01:00", 20),
                 Row.of("工商银行", "2017-11-11 10:02:00", 30),
@@ -104,5 +117,10 @@ public class EnvironmentUtil {
 
     }
 
-
+    public static void main(String[] args) {
+        System.out.println(new Date().getTime() + "_" + new Random().nextInt(100000) + ".csv");
+        String format = StringFormater.format("{}/{}/{}/", "a", "b", new SimpleDateFormat("YYYY-MM-dd").format(new Date()));
+        System.out.println(format);
+        System.out.println(System.nanoTime());
+    }
 }

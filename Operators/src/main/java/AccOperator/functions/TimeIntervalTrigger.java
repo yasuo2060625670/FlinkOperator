@@ -46,6 +46,8 @@ public class TimeIntervalTrigger extends Trigger<Object, TimeWindow> {
             // if the watermark is already past the window fire immediately
             return TriggerResult.FIRE;
         }
+        System.out.println("watermark:"+SIMPLE_DATE_FORMAT.format(ctx.getCurrentWatermark()));
+        System.out.println("window:"+SIMPLE_DATE_FORMAT.format(window.maxTimestamp()));
 //        System.out.println((
 //                "time = " + SIMPLE_DATE_FORMAT.format(new Date(time)) +
 //                        " window start time = " + SIMPLE_DATE_FORMAT.format(new Date(window.getStart())) +

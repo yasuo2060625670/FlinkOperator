@@ -242,6 +242,14 @@ es
         Table table1 = tEnv.sqlQuery("select * from test");
         table1.printSchema();
         DataStream<Tuple2<Boolean, Row>> dataStream = tEnv.toRetractStream(table1, Row.class);
+
+        dataStream.map(t->t.f1)
+
+                .map(t->{
+
+//                    System.out.println(1);
+                    return t;
+                });
 //        DataStream<Row> dataStream = tEnv.toAppendStream(table1, Row.class);
         dataStream.print("test");
         env.execute();
